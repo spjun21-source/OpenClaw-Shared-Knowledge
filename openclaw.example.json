@@ -69,6 +69,15 @@
             ],
             "groupPolicy": "allowlist",
             "streamMode": "partial"
+        },
+        "whatsapp": {
+            "enabled": true,
+            "qrCodePath": "C:\\Users\\user\\.openclaw\\whatsapp-qr.png",
+            "dmPolicy": "allowlist",
+            "allowFrom": [
+                "${WHATSAPP_ALLOW_FROM}"
+            ],
+            "groupPolicy": "allowlist"
         }
     },
     "gateway": {
