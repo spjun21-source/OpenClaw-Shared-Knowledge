@@ -64,3 +64,19 @@ node scripts/market_data.js options --date 20260211 --query 콜
 node scripts/overseas_futures.js report
 node scripts/overseas_futures.js send
 ```
+
+### [tool] realtime_price
+LS증권 WebSocket에 연결된 백그라운드 프로세스의 메모리 캐시에서 초단위 틱 체결/호가 데이터를 즉시 조회합니다. KOSPI 200 선물(FH0) 등의 실시간 데이터가 캐싱되어 있습니다.
+
+- `symbol` (string): 조회할 종목 식별자 (예: KOSPI200 선옵)
+
+```bash
+node scripts/ls_websocket_adapter.js get <symbol>
+```
+
+### [tool] portfolio_valuation
+사용자의 지정된 포트폴리오(삼성전자 9주, KOSPI 200 2026년 3월물 선물 1개, KOSPI 200 프리미엄 1.7 부근 위클리 콜/풋 옵션)의 실시간 손익 및 호가를 백그라운드 틱 데이터 캐시에서 즉시 평가하여 리포트합니다.
+
+```bash
+node scripts/portfolio_monitor.js
+```
