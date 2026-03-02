@@ -10,6 +10,10 @@ memory/
 .naver-calendar-creds.json
 openclaw.json
 
+# Tool Data & Credentials
+*config.json
+mock_portfolio.json
+
 # Node.js
 node_modules/
 npm-debug.log*

@@ -1,4 +1,9 @@
 import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const CACHE_PORT = 18790;
 const SAMSUNG_AVG_PRICE = 217750;
@@ -79,6 +84,29 @@ http.get(`http://localhost:${CACHE_PORT}`, (res) => {
             console.log(`3. KOSPI 200 위클리 옵션 (목표 프리미엄: ${TARGET_PREMIUM} 부근 진입 후보)`);
             console.log(optionsText);
             console.log("=========================================");
+
+            // 모의매매(Mock) 포트폴리오 상태 출력
+            try {
+                const mockPath = path.join(__dirname, 'mock_portfolio.json');
+
+                if (fs.existsSync(mockPath)) {
+                    const mockDB = JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+                    console.log("💰 [모의매매 가상 포트폴리오 계좌]");
+                    console.log(`   - 현금 잔고: ${mockDB.cash_balance.toLocaleString()} 원`);
+
+                    const mockOptions = Object.keys(mockDB.options);
+                    if (mockOptions.length > 0) {
+                        console.log(`   - 보유 옵션 목록:`);
+                        mockOptions.forEach(opt => {
+                            const p = mockDB.options[opt];
+                            console.log(`     * ${opt} (${p.position.toUpperCase()} ${p.qty}개, 진입가: ${p.entry_price})`);
+                        });
+                    }
+                    console.log("=========================================");
+                }
+            } catch (mockErr) {
+                // 모의매매 파일이 없거나 읽을 수 없는 경우 무시 (옵션 기능)
+            }
 
         } catch (e) {
             console.log(`[오류] 캐시 파싱 실패: ${e.message}`);

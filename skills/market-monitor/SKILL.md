@@ -80,3 +80,17 @@ node scripts/ls_websocket_adapter.js get <symbol>
 ```bash
 node scripts/portfolio_monitor.js
 ```
+
+### [tool] mock_trade
+AI가 판단한 시나리오에 따라 모의매매 계좌(가상 포트폴리오)에 가상 주문을 체결하고 기록합니다. 
+초기 자본금 1억 원에서 차감/합산되며, 체결된 내역은 `mock_portfolio.json`에 저장됩니다.
+
+- `type` (string): 자산 종류 (`stock` 또는 `option`)
+- `action` (string): 매매 방향 (`buy` 또는 `sell`)
+- `symbol` (string): 대상 종목코드 또는 식별자
+- `qty` (number): 주문 수량
+- `price` (number): 주문 단가
+
+```bash
+node scripts/mock_trade_executor.js <type> <action> <symbol> <qty> <price>
+```

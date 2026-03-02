@@ -8,16 +8,22 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const LS_CONFIG = JSON.parse(readFileSync(join(__dirname, "ls_config.json"), "utf8"));
 
+const IS_MOCK = LS_CONFIG.mode === "mock";
+const CONFIG_ACCOUNTS = IS_MOCK ? LS_CONFIG.mock_accounts : LS_CONFIG.accounts;
+
+const LOG_PREFIX_F = IS_MOCK ? "[MOCK_FUTURES]" : "[FUTURES]";
+const LOG_PREFIX_S = IS_MOCK ? "[MOCK_STOCK]" : "[STOCK]";
+
 // LS증권 WebSocket API 설정
-const WS_ENDPOINT = LS_CONFIG.endpoints.wsUrl;
+const WS_ENDPOINT = IS_MOCK ? LS_CONFIG.endpoints.wsUrlMock : LS_CONFIG.endpoints.wsUrl;
 const TOKEN_ENDPOINT = LS_CONFIG.endpoints.tokenUrl;
 
-// 앱키와 시크릿키는 환경변수와 설정 파일에서 가져옵니다.
-const APP_KEY = process.env.LS_SEC_ACCESS_TOKEN || LS_CONFIG.accounts.futures.appkey;
-const APP_SECRET = LS_CONFIG.accounts.futures.appsecret;
+// 앱키와 시크릿키는 환경변수와 설정 파일에서 가져옵니다. (Mock 모드일 때는 환경변수를 무시합니다)
+const APP_KEY = (IS_MOCK ? null : process.env.LS_SEC_ACCESS_TOKEN) || CONFIG_ACCOUNTS.futures.appkey;
+const APP_SECRET = CONFIG_ACCOUNTS.futures.appsecret;
 
-const STOCK_APP_KEY = LS_CONFIG.accounts.stock.appkey;
-const STOCK_APP_SECRET = LS_CONFIG.accounts.stock.appsecret;
+const STOCK_APP_KEY = CONFIG_ACCOUNTS.stock.appkey;
+const STOCK_APP_SECRET = CONFIG_ACCOUNTS.stock.appsecret;
 
 // 실시간 시세 캐시 (메모리 DB 역할)
 const realtimeCache = {};
@@ -87,21 +93,21 @@ async function connectWebSocket() {
     const wsFutures = new WebSocket(WS_ENDPOINT);
 
     wsFutures.onopen = () => {
-        log('[FUTURES] WebSocket 연결 성공. 실시간 시세 구독 요청 전송.');
+        log(`${LOG_PREFIX_F} WebSocket 연결 성공. 실시간 시세 구독 요청 전송.`);
 
         const kospiFuturesQuoteMsg = {
             header: { token: OAUTH_TOKEN, tr_type: '3' },
             body: { tr_cd: 'FH0', tr_key: '' } // 전체 종목
         };
         wsFutures.send(JSON.stringify(kospiFuturesQuoteMsg));
-        log('[FUTURES] KOSPI 200 선물 호가 실시간 구독 요청 전송 (FH0)');
+        log(`${LOG_PREFIX_F} KOSPI 200 선물 호가 실시간 구독 요청 전송(FH0)`);
 
         const kospiOptionsQuoteMsg = {
             header: { token: OAUTH_TOKEN, tr_type: '3' },
             body: { tr_cd: 'OH0', tr_key: '' } // 전체 종목
         };
         wsFutures.send(JSON.stringify(kospiOptionsQuoteMsg));
-        log('[FUTURES] KOSPI 200 옵션 호가 실시간 구독 요청 전송 (OH0)');
+        log(`${LOG_PREFIX_F} KOSPI 200 옵션 호가 실시간 구독 요청 전송(OH0)`);
     };
 
     wsFutures.onmessage = (event) => {
@@ -110,10 +116,10 @@ async function connectWebSocket() {
             const data = JSON.parse(message);
             const trCd = data.header.tr_cd;
             if (data.header.rsp_cd === '00000') {
-                log(`[FUTURES] 구독 정상 승인: TR_CD=${trCd}`);
+                log(`[FUTURES] 구독 정상 승인: TR_CD = ${trCd}`);
                 return;
             } else if (data.header.rsp_cd) {
-                log(`[FUTURES] 구독 오류: TR_CD=${trCd}, RSP_CD=${data.header.rsp_cd}, RSP_MSG=${data.header.rsp_msg}`);
+                log(`[FUTURES] 구독 오류: TR_CD = ${trCd}, RSP_CD = ${data.header.rsp_cd}, RSP_MSG = ${data.header.rsp_msg}`);
                 return;
             }
             if (trCd === 'FH0' && data.body) {
@@ -145,14 +151,14 @@ async function connectWebSocket() {
     const wsStock = new WebSocket(WS_ENDPOINT);
 
     wsStock.onopen = () => {
-        log('[STOCK] WebSocket 연결 성공. 실시간 시세 구독 요청 전송.');
+        log(`${LOG_PREFIX_S} WebSocket 연결 성공.실시간 시세 구독 요청 전송.`);
 
         const samsungStockSubscribeMsg = {
             header: { token: STOCK_OAUTH_TOKEN, tr_type: '3' },
             body: { tr_cd: 'K3_', tr_key: '005930' } // KOSPI 체결 (K3_) - 삼성전자
         };
         wsStock.send(JSON.stringify(samsungStockSubscribeMsg));
-        log('[STOCK] 삼성전자 주식 실시간 체결 구독 요청 전송 (K3_)');
+        log(`${LOG_PREFIX_S} 삼성전자 주식 실시간 체결 구독 요청 전송(K3_)`);
     };
 
     wsStock.onmessage = (event) => {
@@ -161,10 +167,10 @@ async function connectWebSocket() {
             const data = JSON.parse(message);
             const trCd = data.header.tr_cd;
             if (data.header.rsp_cd === '00000') {
-                log(`[STOCK] 구독 정상 승인: TR_CD=${trCd}`);
+                log(`[STOCK] 구독 정상 승인: TR_CD = ${trCd}`);
                 return;
             } else if (data.header.rsp_cd) {
-                log(`[STOCK] 구독 오류: TR_CD=${trCd}, RSP_CD=${data.header.rsp_cd}, RSP_MSG=${data.header.rsp_msg}`);
+                log(`[STOCK] 구독 오류: TR_CD = ${trCd}, RSP_CD = ${data.header.rsp_cd}, RSP_MSG = ${data.header.rsp_msg}`);
                 return;
             }
             if (trCd === 'K3_' && data.body) {
