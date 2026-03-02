@@ -1,0 +1,50 @@
+{
+    "telegram": {
+        "botToken": "8434398937:AAED7JqF1UeTyjHgyEmRlJA-r5oQeC0PPVM",
+        "chatId": "6532799784"
+    },
+    "schedule": {
+        "intervalMinutes": 30,
+        "marketHoursOnly": true,
+        "marketOpen": "08:30",
+        "marketClose": "15:45",
+        "timezone": "Asia/Seoul"
+    },
+    "alerts": {
+        "priceChangeThreshold": 5.0,
+        "volumeSpikeMultiplier": 3.0,
+        "watchlist": [
+            {
+                "code": "005930",
+                "name": "삼성전자"
+            },
+            {
+                "code": "000660",
+                "name": "SK하이닉스"
+            },
+            {
+                "code": "035420",
+                "name": "NAVER"
+            },
+            {
+                "code": "035720",
+                "name": "카카오"
+            },
+            {
+                "code": "207940",
+                "name": "삼성바이오로직스"
+            },
+            {
+                "code": "005380",
+                "name": "현대차"
+            }
+        ]
+    },
+    "reports": {
+        "morningBriefing": true,
+        "morningTime": "09:00",
+        "closingReport": true,
+        "closingTime": "15:50",
+        "topMoversCount": 5
+    }
+}

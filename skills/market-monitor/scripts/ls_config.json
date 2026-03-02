@@ -1,0 +1,46 @@
+{
+    "accounts": {
+        "futures": {
+            "label": "KOSPI 선물옵션 실거래",
+            "accountNo": "206483667-02",
+            "appkey": "PSYviOyk9R819I8GwhehSX0SsKlrvEqTgoK1",
+            "appsecret": "9dDD4yuCzSWpIjH7388UnLMD9O19c9NG"
+        },
+        "stock": {
+            "label": "종합주식 실거래",
+            "accountNo": "206483667-02",
+            "appkey": "PSqTRdb0dYKMpZ9U7245vfcNkrgEDRD3Aase",
+            "appsecret": "PzEUasVNyipNdFDBBnHnXVEP5a4Doexx"
+        },
+        "overseas": {
+            "label": "해외 선옵 실거래",
+            "accountNo": "206483667-3",
+            "appkey": "PSxAsiLpF4TXlpwmofCHQtDdTHmxc3CT1LdL",
+            "appsecret": "MVuvYEN2yaUWOAywgVmr578XBOTRFkGW"
+        }
+    },
+    "mode": "production",
+    "endpoints": {
+        "tokenUrl": "https://openapi.ls-sec.co.kr:8080/oauth2/token",
+        "wsUrl": "wss://openapi.ls-sec.co.kr:9443/websocket",
+        "wsUrlMock": "wss://openapi.ls-sec.co.kr:29443/websocket"
+    },
+    "subscriptions": [
+        {
+            "tr": "FCD",
+            "desc": "KOSPI200 선물체결"
+        },
+        {
+            "tr": "FH0",
+            "desc": "KOSPI200 선물호가"
+        },
+        {
+            "tr": "OCD",
+            "desc": "KOSPI200 옵션체결"
+        },
+        {
+            "tr": "OH0",
+            "desc": "KOSPI200 옵션호가"
+        }
+    ]
+}
