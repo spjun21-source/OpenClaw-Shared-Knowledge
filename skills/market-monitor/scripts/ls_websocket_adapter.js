@@ -146,19 +146,65 @@ async function connectWebSocket() {
     wsFutures.onclose = (event) => log(`[FUTURES] WebSocket 연결 종료: 코드 ${event.code}`);
 
     // ----------------------------------------------------
+    // 1. Futures & Options WebSocket Connection
+    // ----------------------------------------------------
+    const wsFutures = new WebSocket(WS_ENDPOINT);
+
+    wsFutures.onopen = () => {
+        log(`${LOG_PREFIX_F} WebSocket 연결 성공. 실시간 시세 구독 요청 전송.`);
+
+        const listFH0 = { header: { token: OAUTH_TOKEN, tr_type: '3' }, body: { tr_cd: 'FH0', tr_key: '' } };
+        wsFutures.send(JSON.stringify(listFH0));
+        log(`${LOG_PREFIX_F} KOSPI 200 선물 호가 구독(FH0)`);
+
+        const listOH0 = { header: { token: OAUTH_TOKEN, tr_type: '3' }, body: { tr_cd: 'OH0', tr_key: '' } };
+        wsFutures.send(JSON.stringify(listOH0));
+        log(`${LOG_PREFIX_F} KOSPI 200 옵션 호가 구독(OH0)`);
+    };
+
+    wsFutures.onmessage = (event) => {
+        const message = event.data.toString('utf8');
+        try {
+            const data = JSON.parse(message);
+            const trCd = data.header.tr_cd;
+
+            if (data.header.rsp_cd === '00000') return;
+
+            if ((trCd === 'FH0' || trCd === 'OH0') && data.body) {
+                const name = (data.body.hname || data.body.shtnIsunm || "FO").trim();
+                if (!realtimeCache[name]) realtimeCache[name] = {};
+                realtimeCache[name].bid = data.body.bidho1 || "N/A";
+                realtimeCache[name].ask = data.body.offerho1 || "N/A";
+                realtimeCache[name].price = data.body.current || data.body.price || "N/A";
+                realtimeCache[name].time = new Date().toISOString();
+                realtimeCache[name].type = trCd === 'FH0' ? "Futures" : "Option";
+            }
+        } catch (e) {
+            log(`[FUTURES] 메시지 파싱 오류: ${e.message}`);
+        }
+    };
+
+    wsFutures.onerror = (error) => log(`[FUTURES] WebSocket 오류: ${error.message}`);
+    wsFutures.onclose = (event) => log(`[FUTURES] WebSocket 연결 종료: 코드 ${event.code}`);
+
+    // ----------------------------------------------------
     // 2. Stock WebSocket Connection
     // ----------------------------------------------------
     const wsStock = new WebSocket(WS_ENDPOINT);
 
     wsStock.onopen = () => {
-        log(`${LOG_PREFIX_S} WebSocket 연결 성공.실시간 시세 구독 요청 전송.`);
+        log(`${LOG_PREFIX_S} WebSocket 연결 성공. 실시간 시세 구독 요청 전송.`);
 
-        const samsungStockSubscribeMsg = {
-            header: { token: STOCK_OAUTH_TOKEN, tr_type: '3' },
-            body: { tr_cd: 'K3_', tr_key: '005930' } // KOSPI 체결 (K3_) - 삼성전자
-        };
-        wsStock.send(JSON.stringify(samsungStockSubscribeMsg));
-        log(`${LOG_PREFIX_S} 삼성전자 주식 실시간 체결 구독 요청 전송(K3_)`);
+        // 삼성전자(005930), SK하이닉스(000660) 등 주요 종목 구독
+        const targets = ['005930', '000660'];
+        targets.forEach(code => {
+            const msg = {
+                header: { token: STOCK_OAUTH_TOKEN, tr_type: '3' },
+                body: { tr_cd: 'K3_', tr_key: code }
+            };
+            wsStock.send(JSON.stringify(msg));
+            log(`${LOG_PREFIX_S} 종목 구독 요청: ${code} (K3_)`);
+        });
     };
 
     wsStock.onmessage = (event) => {
@@ -166,20 +212,19 @@ async function connectWebSocket() {
         try {
             const data = JSON.parse(message);
             const trCd = data.header.tr_cd;
-            if (data.header.rsp_cd === '00000') {
-                log(`[STOCK] 구독 정상 승인: TR_CD = ${trCd}`);
-                return;
-            } else if (data.header.rsp_cd) {
-                log(`[STOCK] 구독 오류: TR_CD = ${trCd}, RSP_CD = ${data.header.rsp_cd}, RSP_MSG = ${data.header.rsp_msg}`);
-                return;
-            }
+
+            if (data.header.rsp_cd === '00000') return;
+
             if (trCd === 'K3_' && data.body) {
-                const symbol = "삼성전자";
-                if (!realtimeCache[symbol]) realtimeCache[symbol] = {};
-                realtimeCache[symbol].price = data.body.price || data.body.cheprice || "N/A";
-                realtimeCache[symbol].change = data.body.change || data.body.sign || "0";
-                realtimeCache[symbol].time = new Date().toISOString();
-                realtimeCache[symbol].type = "Stock";
+                const symbol = data.body.shcode || "Stock"; // shcode 필드 확인 필요
+                const nameMap = { '005930': '삼성전자', '000660': 'SK하이닉스' };
+                const name = nameMap[symbol] || symbol;
+
+                if (!realtimeCache[name]) realtimeCache[name] = {};
+                realtimeCache[name].price = data.body.price || data.body.cheprice || "N/A";
+                realtimeCache[name].change = data.body.change || data.body.sign || "0";
+                realtimeCache[name].time = new Date().toISOString();
+                realtimeCache[name].type = "Stock";
             }
         } catch (e) {
             log(`[STOCK] 메시지 파싱 오류: ${e.message}`);
