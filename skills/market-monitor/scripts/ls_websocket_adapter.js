@@ -95,64 +95,6 @@ async function connectWebSocket() {
     wsFutures.onopen = () => {
         log(`${LOG_PREFIX_F} WebSocket 연결 성공. 실시간 시세 구독 요청 전송.`);
 
-        const kospiFuturesQuoteMsg = {
-            header: { token: OAUTH_TOKEN, tr_type: '3' },
-            body: { tr_cd: 'FH0', tr_key: '' } // 전체 종목
-        };
-        wsFutures.send(JSON.stringify(kospiFuturesQuoteMsg));
-        log(`${LOG_PREFIX_F} KOSPI 200 선물 호가 실시간 구독 요청 전송(FH0)`);
-
-        const kospiOptionsQuoteMsg = {
-            header: { token: OAUTH_TOKEN, tr_type: '3' },
-            body: { tr_cd: 'OH0', tr_key: '' } // 전체 종목
-        };
-        wsFutures.send(JSON.stringify(kospiOptionsQuoteMsg));
-        log(`${LOG_PREFIX_F} KOSPI 200 옵션 호가 실시간 구독 요청 전송(OH0)`);
-    };
-
-    wsFutures.onmessage = (event) => {
-        const message = event.data.toString('utf8');
-        try {
-            const data = JSON.parse(message);
-            const trCd = data.header.tr_cd;
-            if (data.header.rsp_cd === '00000') {
-                log(`[FUTURES] 구독 정상 승인: TR_CD = ${trCd}`);
-                return;
-            } else if (data.header.rsp_cd) {
-                log(`[FUTURES] 구독 오류: TR_CD = ${trCd}, RSP_CD = ${data.header.rsp_cd}, RSP_MSG = ${data.header.rsp_msg}`);
-                return;
-            }
-            if (trCd === 'FH0' && data.body) {
-                const symbol = (data.body.shtnIsunm || "선물").trim();
-                if (!realtimeCache[symbol]) realtimeCache[symbol] = {};
-                realtimeCache[symbol].bid = data.body.bidho1 || "N/A";
-                realtimeCache[symbol].ask = data.body.offerho1 || "N/A";
-                realtimeCache[symbol].time = new Date().toISOString();
-                realtimeCache[symbol].type = "Futures";
-            } else if (trCd === 'OH0' && data.body) {
-                const symbol = (data.body.hname || "옵션").trim();
-                if (!realtimeCache[symbol]) realtimeCache[symbol] = {};
-                realtimeCache[symbol].bid = data.body.bidho1 || "N/A";
-                realtimeCache[symbol].ask = data.body.offerho1 || "N/A";
-                realtimeCache[symbol].time = new Date().toISOString();
-                realtimeCache[symbol].type = "Option";
-            }
-        } catch (e) {
-            log(`[FUTURES] 메시지 파싱 오류: ${e.message}`);
-        }
-    };
-
-    wsFutures.onerror = (error) => log(`[FUTURES] WebSocket 오류: ${error.message}`);
-    wsFutures.onclose = (event) => log(`[FUTURES] WebSocket 연결 종료: 코드 ${event.code}`);
-
-    // ----------------------------------------------------
-    // 1. Futures & Options WebSocket Connection
-    // ----------------------------------------------------
-    const wsFutures = new WebSocket(WS_ENDPOINT);
-
-    wsFutures.onopen = () => {
-        log(`${LOG_PREFIX_F} WebSocket 연결 성공. 실시간 시세 구독 요청 전송.`);
-
         const listFH0 = { header: { token: OAUTH_TOKEN, tr_type: '3' }, body: { tr_cd: 'FH0', tr_key: '' } };
         wsFutures.send(JSON.stringify(listFH0));
         log(`${LOG_PREFIX_F} KOSPI 200 선물 호가 구독(FH0)`);
