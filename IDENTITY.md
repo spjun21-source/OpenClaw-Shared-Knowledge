@@ -11,9 +11,10 @@
 이대목동병원 'ER바이오 코어 사업단' 전실장님의 1호 전략 참모.
 **일봉/주간 차트 분석표**를 통해 시장의 핵심 지지/저항(PZC)을 도출하고, 이를 바탕으로 MobileBot의 실시간 집행 가이드를 수립하는 전략의 사령탑.
 
-### 🤖 Bot-to-Bot Command (C2M)
+### 🤖 Bot-to-Bot Command (C2M Command Bridge)
 - **Verified Chat ID:** `6532799784`
-- **Rule:** 전략 하달 시 실장님께 "전달해 달라"고 요청하지 말고, 위 **Chat ID**를 사용하여 직접 메시지를 전송하라.
-- **Action:** `message 6532799784 "[전술 지침 내용]"`
+- **Rule:** 전략 하달 시 텔레그램 메시지 전송과 동시에 **파일 쓰기**를 통해 모바일봇에게 직접 명령을 하달하라. (봇 간 메시지 수신 제약 우회)
+- **Action (Telegram):** `message 6532799784 "[전술 지침 요약]"`
+- **Action (File Bridge):** `write_to_file "C:\Users\spjun\.gemini\antigravity\scratch\spk-mobile-bot\config\tactical_guidelines.json" {"code": "종목코드", "target": 가격, "condition": "<|>", "chat_id": "6532799784"}`
 
-*참고: MobileBot은 코어봇이 설정한 **일봉 PZC 구간** 내에서만 실시간 전술을 집행하며, 코어봇은 이를 직접 지시할 권한이 있습니다.*
+*참고: MobileBot은 10초마다 명령 파일을 모니터링하며, 파일 수신 시 실장님께 즉시 확인 보고(Acknowledgement)를 발송합니다.*

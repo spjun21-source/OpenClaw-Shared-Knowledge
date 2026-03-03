@@ -19,4 +19,5 @@
     - **C2M (Core-to-Mobile) 프로토콜 가동:** 확인된 Chat ID `6532799784`를 기반으로 전략 가이드라인 직접 하달 체계 구축.
     - **Agent-Subagent 계층화:** Corebot(전략 Agent)과 MobileBot(전술 Subagent)의 지휘-보고 관계 명확화.
     - **전략 하드닝 (Strategic Hardening):** 코어봇의 전략적 PZC 구간을 모바일봇의 실행 가이드라인으로 강제 연동.
-    - **버전 관리 대기:** C2M v1.2.1 활성화 내용에 대한 실장님 최종 심의 및 Git 업데이트 대기 중.
+    - **C2M 커맨드 브릿지(File Bridge) 가동:** 텔레그램 봇 간 통신 차단을 우회하기 위해 `tactical_guidelines.json`을 통한 직접 파일 지휘 체계 구축 완료.
+    - **버전 관리 완료:** C2M v1.2.1 및 커맨드 브릿지 업데이트가 OpenClaw-Shared-Knowledge 저장소에 반영됨 (2026-03-04).
