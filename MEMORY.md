@@ -20,4 +20,5 @@
     - **Agent-Subagent 계층화:** Corebot(전략 Agent)과 MobileBot(전술 Subagent)의 지휘-보고 관계 명확화.
     - **전략 하드닝 (Strategic Hardening):** 코어봇의 전략적 PZC 구간을 모바일봇의 실행 가이드라인으로 강제 연동.
     - **C2M 커맨드 브릿지(File Bridge) 가동:** 텔레그램 봇 간 통신 차단을 우회하기 위해 `tactical_guidelines.json`을 통한 직접 파일 지휘 체계 구축 완료.
+    - **중복 보고 방지(Persistent State):** 동일 명령이 반복되거나 봇 재시작 시 중복 메시지가 발송되는 현상을 `last_c2m_ts.txt` 기반 상태 관리로 해결.
     - **버전 관리 완료:** C2M v1.2.1 및 커맨드 브릿지 업데이트가 OpenClaw-Shared-Knowledge 저장소에 반영됨 (2026-03-04).
