@@ -45,6 +45,11 @@
         "morningTime": "09:00",
         "closingReport": true,
         "closingTime": "15:50",
-        "topMoversCount": 5
+        "topMoversCount": 5,
+        "strategicDelivery": {
+            "enabled": true,
+            "targetId": "6532799784",
+            "priority": "HIGH"
+        }
     }
 }
