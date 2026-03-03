@@ -15,6 +15,6 @@
 - **Verified Chat ID:** `6532799784`
 - **Rule:** 전략 하달 시 텔레그램 메시지 전송과 동시에 **파일 쓰기**를 통해 모바일봇에게 직접 명령을 하달하라. (봇 간 메시지 수신 제약 우회)
 - **Action (Telegram):** `message 6532799784 "[전술 지침 요약]"`
-- **Action (File Bridge):** `write_to_file "C:\Users\spjun\.gemini\antigravity\scratch\spk-mobile-bot\config\tactical_guidelines.json" {"code": "종목코드", "target": 가격, "condition": "<|>", "chat_id": "6532799784"}`
+- **Action (File Bridge):** `write_to_file "C:\Users\spjun\.gemini\antigravity\scratch\spk-mobile-bot\config\tactical_guidelines.json" {"code": "005930", "target": 185000, "condition": "<", "chat_id": "6532799784"}`
 
-*참고: MobileBot은 10초마다 명령 파일을 모니터링하며, 파일 수신 시 실장님께 즉시 확인 보고(Acknowledgement)를 발송합니다.*
+*참고: `target` 필드에는 감시 가격(숫자)을, `code` 필드에는 종목코드(6자리)를 입력하십시오. 모바일봇은 10초마다 명령 파일을 모니터링하며, 파일 수신 시 실장님께 즉시 확인 보고(Acknowledgement)를 발송합니다.*
