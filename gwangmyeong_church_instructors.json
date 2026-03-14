@@ -1,0 +1,23 @@
+[
+    {"name": "박재선", "title": "목사님", "phone": "010-5182-2023", "availability": "개별 문의 가능", "notes": ""},
+    {"name": "양광종", "title": "목사님", "phone": "010-5128-2269", "availability": "목요일, 오후 5시 이후", "notes": ""},
+    {"name": "김주란", "title": "목사님", "phone": "010-7318-7307", "availability": "주일, 일요일 오후", "notes": ""},
+    {"name": "정희선", "title": "목사님", "phone": "010-7607-9760", "availability": "화요일~토요일 3시 이후", "notes": ""},
+    {"name": "김민정", "title": "목사님", "phone": "010-4896-9413", "availability": "화요일, 목요일 오전 10시~12시 / 토요일, 주일, 일요일 오전이나 오후", "notes": ""},
+    {"name": "김선영", "title": "목사님", "phone": "010-4118-7593", "availability": "평일 오전11~오후1시 / 토 오전11시~오후8시 주일 오후3시~오후8시", "notes": ""},
+    {"name": "정주희", "title": "목사님", "phone": "010-2293-3004", "availability": "주일", "notes": ""},
+    {"name": "김응찬", "title": "목사님", "phone": "010-3065-5408", "availability": "화요일, 목요일 저녁8시 이후/ 토요일 오후 2시~ 6시", "notes": ""},
+    {"name": "정주담", "title": "목사님", "phone": "010-9267-8751", "availability": "토요일, 주일", "notes": ""},
+    {"name": "이선진", "title": "강도사님", "phone": "010-7297-7245", "availability": "수요일 3시 이후", "notes": ""},
+    {"name": "이상인", "title": "강도사님", "phone": "010-9103-3427", "availability": "월요일, 수요일, 목요일, 금요일 오전 11시~오후 6시", "notes": ""},
+    {"name": "정재욱", "title": "강도사님", "phone": "010-2739-3471", "availability": "토요일, 주일, 일요일", "notes": ""},
+    {"name": "주새별", "title": "강도사님", "phone": "010-5053-5583", "availability": "월요일, 수요일, 금요일 3시 이후 / 토요일, 주일, 일요일 오전이나 오후", "notes": ""},
+    {"name": "송지현", "title": "강도사님", "phone": "010-2286-8503", "availability": "수요일, 금요일 오후1시 이후/ 토요일 오후6시반 이후", "notes": ""},
+    {"name": "이지훈", "title": "장로님", "phone": "010-2947-1517", "availability": "주간 평일 오후 4시 이후/ 토요일 오후 1시 이후/ 주일 일요일", "notes": ""},
+    {"name": "이애진", "title": "안수집사님", "phone": "0104762-9955", "availability": "주간 평일, 주말 모두 가능", "notes": ""},
+    {"name": "주보람", "title": "전도사님", "phone": "010-4457-7773", "availability": "화요일, 금요일 오후1시~8시 / 토요일, 주일, 일요일 오전 오후", "notes": ""},
+    {"name": "신은경", "title": "전도사님", "phone": "010-8756-0156", "availability": "토요일 오전 10시~오후 4시", "notes": ""},
+    {"name": "황매향", "title": "목사님", "phone": "010-7477-2095", "availability": "부교역자는 개별 문의 가능", "notes": "부교역자"},
+    {"name": "주환영", "title": "목사님", "phone": "010-7330-8221", "availability": "부교역자는 개별 문의 가능", "notes": "부교역자"},
+    {"name": "주율빛", "title": "목사님", "phone": "010-8414-8843", "availability": "부교역자는 개별 문의 가능", "notes": "부교역자"}
+]

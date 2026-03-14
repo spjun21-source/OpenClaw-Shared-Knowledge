@@ -1,0 +1,42 @@
+
+{
+  "district_name": "7단 1구역",
+  "members": [
+    {
+      "name": "전상표/김남년",
+      "worship_status": "온라인"
+    },
+    {
+      "name": "조영식/황유성",
+      "worship_status": "월명동"
+    },
+    {
+      "name": "김철영/이현수",
+      "worship_status": "온라인"
+    },
+    {
+      "name": "정치천/강성이",
+      "worship_status": "교회"
+    },
+    {
+      "name": "이태수/김보선",
+      "worship_status": "교회"
+    },
+    {
+      "name": "김충원/하정아",
+      "worship_status": "타교회"
+    },
+    {
+      "name": "오의진/권운재",
+      "worship_status": "교회"
+    },
+    {
+      "name": "배창현/이혜경",
+      "worship_status": "온라인"
+    },
+    {
+      "name": "전경수",
+      "worship_status": "온라인"
+    }
+  ]
+}
