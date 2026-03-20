@@ -25,22 +25,20 @@
         "wsUrl": "wss://openapi.ls-sec.co.kr:9443/websocket",
         "wsUrlMock": "wss://openapi.ls-sec.co.kr:29443/websocket"
     },
-    "subscriptions": [
-        {
-            "tr": "FCD",
-            "desc": "KOSPI200 선물체결"
+    "subscriptions": {
+        "futures": {
+            "tr_codes": ["FH0"],
+            "targets": ["101V6000"],
+            "desc": "KOSPI200 선물호가 (근월물)"
         },
-        {
-            "tr": "FH0",
-            "desc": "KOSPI200 선물호가"
-        },
-        {
-            "tr": "OCD",
-            "desc": "KOSPI200 옵션체결"
-        },
-        {
-            "tr": "OH0",
-            "desc": "KOSPI200 옵션호가"
+        "stocks": {
+            "tr_codes": ["K3_"],
+            "targets": ["005930", "000660"],
+            "desc": "주요 종목 체결가 (삼성전자, SK하이닉스)"
         }
-    ]
+    },
+    "reconnect": {
+        "maxRetries": 5,
+        "baseDelayMs": 3000
+    }
 }

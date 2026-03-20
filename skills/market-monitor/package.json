@@ -4,6 +4,7 @@
   "description": "LS Securities Corebot Market Monitor and Mock Trading Tool",
   "type": "module",
   "dependencies": {
+    "better-sqlite3": "^12.8.0",
     "ws": "^8.19.0"
   }
 }

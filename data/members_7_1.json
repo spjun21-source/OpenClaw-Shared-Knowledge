@@ -1,0 +1,57 @@
+[
+  {
+    "name": "전상표",
+    "spouse": "김남년",
+    "type": "온라인",
+    "telegram_id": "6532799784",
+    "role": "실장님"
+  },
+  {
+    "name": "조영식",
+    "spouse": "황유성",
+    "type": "월명동",
+    "telegram_id": null
+  },
+  {
+    "name": "김철영",
+    "spouse": "이현수",
+    "type": "온라인",
+    "telegram_id": null
+  },
+  {
+    "name": "정치천",
+    "spouse": "강성이",
+    "type": "교회",
+    "telegram_id": null
+  },
+  {
+    "name": "이태수",
+    "spouse": "김보선",
+    "type": "교회",
+    "telegram_id": null
+  },
+  {
+    "name": "김충원",
+    "spouse": "하정아",
+    "type": "타교회",
+    "telegram_id": null
+  },
+  {
+    "name": "오의진",
+    "spouse": "권운재",
+    "type": "교회",
+    "telegram_id": null
+  },
+  {
+    "name": "배창현",
+    "spouse": "이혜경",
+    "type": "온라인",
+    "telegram_id": null
+  },
+  {
+    "name": "전경수",
+    "spouse": null,
+    "type": "온라인 (부인 불참)",
+    "telegram_id": null
+  }
+]

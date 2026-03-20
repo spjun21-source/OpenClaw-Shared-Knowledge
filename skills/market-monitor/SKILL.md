@@ -3,11 +3,16 @@ name: market-monitor
 description: 한국 증시 및 해외 선물 시황 모니터링. data.go.kr API로 국내 주식/선물/옵션 시세 조회, Yahoo Finance API로 해외선물(S&P500, Nasdaq, WTI, Gold 등) 실시간 조회.
 ---
 
-# market-monitor
+# market-monitor (v2.0)
 
 한국 증시 및 해외 선물 시황 모니터링 스킬.
-- **국내 시세**: 금융위원회 공공데이터 API (data.go.kr) — T+1 영업일 오후 1시 이후 업데이트
+- **국내 시세 (T+1)**: 금융위원회 공공데이터 API (data.go.kr) — T+1 영업일 오후 1시 이후 업데이트
 - **해외 선물**: Yahoo Finance API — 실시간 (야간 시장 포함)
+- **국내 실시간 (장중)**: LS증권 WebSocket → 메모리 캐시 HTTP 서버 (Port 18790)
+
+> **⚠️ 장중 데이터 흐름**: `ls_websocket_adapter.js`가 `gateway.cmd`에 의해 백그라운드로 실행됩니다.
+> 장중에는 `realtime_price`와 `portfolio_valuation`이 실시간 데이터를 제공합니다.
+> 장 종료 후에는 `market_summary`와 `overseas_futures`를 우선 사용하세요.
 
 ## Tools
 
@@ -66,28 +71,34 @@ node scripts/overseas_futures.js send
 ```
 
 ### [tool] realtime_price
-LS증권 WebSocket에 연결된 백그라운드 프로세스의 메모리 캐시에서 초단위 틱 체결/호가 데이터를 즉시 조회합니다. KOSPI 200 선물(FH0) 등의 실시간 데이터가 캐싱되어 있습니다.
+LS증권 WebSocket 백그라운드 프로세스의 HTTP 캐시 서버(Port 18790)에서 초단위 실시간 데이터를 즉시 조회합니다.
 
-- `symbol` (string): 조회할 종목 식별자 (예: KOSPI200 선옵)
+- `symbol` (string): **종목코드** (예: 005930, 101V6000) 또는 **한글명** (예: 삼성전자)
+
+> **v2.0 변경사항**: 캐시 키가 한글명 → 종목코드로 정규화됨. 한글명 검색도 지원 (fallback).
 
 ```bash
-node scripts/ls_websocket_adapter.js get <symbol>
+node scripts/ls_websocket_adapter.js get 005930
+node scripts/ls_websocket_adapter.js get 101V6000
+node scripts/ls_websocket_adapter.js health
 ```
 
 ### [tool] portfolio_valuation
-사용자의 지정된 포트폴리오(삼성전자 9주, KOSPI 200 2026년 3월물 선물 1개, KOSPI 200 프리미엄 1.7 부근 위클리 콜/풋 옵션)의 실시간 손익 및 호가를 백그라운드 틱 데이터 캐시에서 즉시 평가하여 리포트합니다.
+`portfolio_config.json`에 정의된 포트폴리오의 실시간 손익 및 호가를 평가하여 리포트합니다.
+Primary: WS Adapter 캐시(18790) → Fallback: SPK Mobile Bot 캐시(18792)
+
+> **v2.0 변경사항**: 포트폴리오 설정이 `portfolio_config.json`으로 외부화됨. 종목코드 기반 캐시 키 사용.
 
 ```bash
 node scripts/portfolio_monitor.js
 ```
 
 ### [tool] mock_trade
-AI가 판단한 시나리오에 따라 모의매매 계좌(가상 포트폴리오)에 가상 주문을 체결하고 기록합니다. 
-초기 자본금 1억 원에서 차감/합산되며, 체결된 내역은 `mock_portfolio.json`에 저장됩니다.
+AI가 판단한 시나리오에 따라 모의매매 계좌에 가상 주문을 체결하고 기록합니다.
 
 - `type` (string): 자산 종류 (`stock` 또는 `option`)
 - `action` (string): 매매 방향 (`buy` 또는 `sell`)
-- `symbol` (string): 대상 종목코드 또는 식별자
+- `symbol` (string): 대상 종목코드
 - `qty` (number): 주문 수량
 - `price` (number): 주문 단가
 
