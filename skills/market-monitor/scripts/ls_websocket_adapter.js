@@ -241,7 +241,7 @@ async function connectWebSocket() {
     // ----------------------------------------------------------
     // HTTP 캐시 공유 서버 (Port 18790)
     // ----------------------------------------------------------
-    const CACHE_PORT = 18790;
+    const CACHE_PORT = 18795;
     const httpServer = http.createServer((req, res) => {
         const url = new URL(req.url, `http://localhost:${CACHE_PORT}`);
 
@@ -378,7 +378,7 @@ switch (command) {
             process.exit(1);
         }
 
-        const GET_PORT = 18790;
+        const GET_PORT = 18795;
         // 먼저 종목코드로 시도, 없으면 이름으로 검색
         http.get(`http://localhost:${GET_PORT}/get?symbol=${encodeURIComponent(symbolToGet)}`, (res) => {
             let chunkData = "";
@@ -404,7 +404,7 @@ switch (command) {
     }
 
     case "health": {
-        const HEALTH_PORT = 18790;
+        const HEALTH_PORT = 18795;
         http.get(`http://localhost:${HEALTH_PORT}/health`, (res) => {
             let data = "";
             res.on("data", (c) => data += c);

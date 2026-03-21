@@ -1,4 +1,27 @@
 {
-  "commands": [],
-  "last_processed_id": null
+  "commands": [
+    {
+      "id": "test_cmd_v140_kmc",
+      "type": "SEND_QT",
+      "payload": {
+        "content": "🏰 **V1.4.0 Multi-Agent Hub Test**\n\nKMCNewsbot 브릿지 연동 테스트 중입니다.\n이 메시지가 보인다면 허브 아키텍처가 정상 작동하는 것입니다.",
+        "target_id": "6532799784"
+      },
+      "status": "COMPLETED",
+      "timestamp": "2026-03-21T00:40:00Z",
+      "result": "OK"
+    },
+    {
+      "id": "final_verification_v140_kmc",
+      "type": "SEND_QT",
+      "payload": {
+        "content": "🏰 **V1.4.0 Multi-Agent Hub 최종 검증**\n\n모바일봇(Tactical)과 뉴스봇(Community) 동시 연동 테스트 중입니다.\n이것으로 V1.4.0 마스터 허브 구축이 공식 완료되었습니다.",
+        "target_id": "6532799784"
+      },
+      "status": "COMPLETED",
+      "timestamp": "2026-03-21T00:55:00Z",
+      "result": "OK"
+    }
+  ],
+  "last_processed_id": "final_verification_v140_kmc"
 }

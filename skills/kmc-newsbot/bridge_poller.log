@@ -1,0 +1,16 @@
+[BOOT] Bridge: c:\Users\spjun\.openclaw\workspace\OpenClaw-Shared-Knowledge\config\kmc_commands.json
+[BOOT] Config: c:\Users\spjun\.openclaw\workspace\OpenClaw-Shared-Knowledge\config\kmc_newsbot_config.json
+[BOOT] Config loaded for Master: 6532799784
+[KMC] KMCNewsbot Bridge Poller started (v1.1)
+[POLL] Found 1 pending commands
+[PROCESS] Command ID: test_cmd_v140_kmc, Type: SEND_QT
+[PROCESS] Target: 6532799784, Content Snippet: 🏰 **V1.4.0 Multi-Agent Hub Te...
+[TELEGRAM] Sending to 6532799784... (Length: 98)
+[SUCCESS] Sent to 6532799784
+[POLL] Bridge updated.
+[POLL] Found 1 pending commands
+[PROCESS] Command ID: final_verification_v140_kmc, Type: SEND_QT
+[PROCESS] Target: 6532799784, Content Snippet: 🏰 **V1.4.0 Multi-Agent Hub 최종...
+[TELEGRAM] Sending to 6532799784... (Length: 118)
+[SUCCESS] Sent to 6532799784
+[POLL] Bridge updated.

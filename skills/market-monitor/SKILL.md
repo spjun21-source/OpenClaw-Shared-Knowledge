@@ -8,7 +8,7 @@ description: 한국 증시 및 해외 선물 시황 모니터링. data.go.kr API
 한국 증시 및 해외 선물 시황 모니터링 스킬.
 - **국내 시세 (T+1)**: 금융위원회 공공데이터 API (data.go.kr) — T+1 영업일 오후 1시 이후 업데이트
 - **해외 선물**: Yahoo Finance API — 실시간 (야간 시장 포함)
-- **국내 실시간 (장중)**: LS증권 WebSocket → 메모리 캐시 HTTP 서버 (Port 18790)
+- **국내 실시간 (장중)**: LS증권 WebSocket → 메모리 캐시 HTTP 서버 (Port 18795)
 
 > **⚠️ 장중 데이터 흐름**: `ls_websocket_adapter.js`가 `gateway.cmd`에 의해 백그라운드로 실행됩니다.
 > 장중에는 `realtime_price`와 `portfolio_valuation`이 실시간 데이터를 제공합니다.
@@ -71,7 +71,7 @@ node scripts/overseas_futures.js send
 ```
 
 ### [tool] realtime_price
-LS증권 WebSocket 백그라운드 프로세스의 HTTP 캐시 서버(Port 18790)에서 초단위 실시간 데이터를 즉시 조회합니다.
+LS증권 WebSocket 백그라운드 프로세스의 HTTP 캐시 서버(Port 18795)에서 초단위 실시간 데이터를 즉시 조회합니다.
 
 - `symbol` (string): **종목코드** (예: 005930, 101V6000) 또는 **한글명** (예: 삼성전자)
 
@@ -85,7 +85,7 @@ node scripts/ls_websocket_adapter.js health
 
 ### [tool] portfolio_valuation
 `portfolio_config.json`에 정의된 포트폴리오의 실시간 손익 및 호가를 평가하여 리포트합니다.
-Primary: WS Adapter 캐시(18790) → Fallback: SPK Mobile Bot 캐시(18792)
+Primary: WS Adapter 캐시(18795) → Fallback: SPK Mobile Bot 캐시(18792)
 
 > **v2.0 변경사항**: 포트폴리오 설정이 `portfolio_config.json`으로 외부화됨. 종목코드 기반 캐시 키 사용.
 

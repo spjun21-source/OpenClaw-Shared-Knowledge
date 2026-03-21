@@ -29,7 +29,7 @@ const OPTIONS = portfolioConfig.options;
 // ----------------------------------------------------------
 // 캐시 서버에서 데이터 로드
 // ----------------------------------------------------------
-const PRIMARY_PORT = 18790;    // ls_websocket_adapter 캐시
+const PRIMARY_PORT = 18795;    // ls_websocket_adapter 캐시
 const FALLBACK_PORT = 18791;   // SPK Mobile Bot 공유 캐시
 
 function fetchCache(port) {
